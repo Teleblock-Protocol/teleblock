@@ -2,7 +2,8 @@ TeleBlock Protocol
 
 Overview
 
-TeleBlock is a decentralized messaging and digital transaction protocol based on blockchain, designed to provide security, privacy, and censorship resistance. This system enables users to send encrypted messages, perform digital coin transfers, and participate as validators to secure the network.
+TeleBlock is a decentralized messaging and digital transaction protocol based on blockchain, designed to provide security, privacy, and censorship resistance. 
+This system enables users to send encrypted messages, perform digital coin transfers, and participate as validators to secure the network.
 
 Key Features
 
@@ -54,7 +55,8 @@ Technical Details
 
 Validator Rewards
 
-Validator rewards are dynamically calculated based on the number of validated blocks and recent network activity. This approach incentivizes active participation while controlling inflation.
+Validator rewards are dynamically calculated based on the number of validated blocks and recent network activity. 
+This approach incentivizes active participation while controlling inflation.
 
 Related File: block_validadores.js
 
