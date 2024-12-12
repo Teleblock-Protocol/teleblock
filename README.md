@@ -1,6 +1,7 @@
 
 
-![logo_teleblock_pw_origi_BEST](https://github.com/user-attachments/assets/4bde9b91-5cf2-427f-be86-cacc5ea8fe6e)
+![Tele_block_negro](https://github.com/user-attachments/assets/9a58f81e-8e5b-4a81-b6e5-97f322fed737)
+
 
 
 TeleBlock Protocol
