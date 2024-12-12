@@ -1,3 +1,8 @@
+
+
+![logo_teleblock_pw_origi_BEST](https://github.com/user-attachments/assets/4bde9b91-5cf2-427f-be86-cacc5ea8fe6e)
+
+
 TeleBlock Protocol
 
 Overview
