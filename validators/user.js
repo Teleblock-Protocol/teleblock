@@ -1,7 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 const crypto = require('crypto');
 
-// Abrir o crear la base de datos SQLite
 const db = new sqlite3.Database('./blockchainDB.sqlite', (err) => {
     if (err) {
         console.error('Error al abrir la base de datos:', err.message);
@@ -28,7 +27,7 @@ const db = new sqlite3.Database('./blockchainDB.sqlite', (err) => {
     
 
 
-// Crear tabla de llaves cifradas del grupo
+
 db.run(`
 CREATE TABLE IF NOT EXISTS group_encryptedKeys (
     key_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -48,7 +47,7 @@ CREATE TABLE IF NOT EXISTS group_encryptedKeys (
 });
 
 
-        // Crear tabla de mensajes si no existe
+        
         db.run(`
             CREATE TABLE IF NOT EXISTS messages (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -71,7 +70,7 @@ CREATE TABLE IF NOT EXISTS group_encryptedKeys (
 });
 
 
-// Clase de usuario
+
 class User {
   
 
@@ -79,7 +78,6 @@ class User {
 
   
 
-    // Obtener un usuario por su walletAddress
     static getUser(walletAddress) {
         return new Promise((resolve, reject) => {
             db.get(
@@ -97,7 +95,6 @@ class User {
     }
 
 
-    // Actualizar el balance de un usuario en la base de datos
     static updateUserBalance(walletAddress, newBalance) {
         return new Promise((resolve, reject) => {
             db.run(
@@ -112,7 +109,7 @@ class User {
     }
 
    
-    // Cerrar la conexión a la base de datos
+
     static closeDB() {
         return new Promise((resolve, reject) => {
             db.close((err) => {
@@ -129,9 +126,9 @@ class User {
 
 
 
-// Exportar la base de datos y las funciones de `User` correctamente
+
 module.exports = {
-    db,  // Exportar `db` para otras operaciones
+    db, 
     getUser: User.getUser,
     updateUserBalance: User.updateUserBalance
     

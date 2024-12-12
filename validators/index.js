@@ -14,22 +14,23 @@ const port = 4000;
 
 app.use(bodyParser.json());
 
-// Dirección de la billetera del validador
-const validatorWalletAddress = '5d145d96a14dd6e0c0b61d2dbf64817b07340aa1';
+// To register a new validator just add the wallet 
+//address and upon connection you will become a validator.
+const validatorWalletAddress = 'address-validator';
 
-// Ruta para devolver la dirección del validador
+
 app.get('/wallet', (req, res) => {
     console.log(`Request received in /wallet`);
     res.json({ address: validatorWalletAddress });
 });
 
-// Ruta para obtener la dirección de wallet del validador
+
 app.get('/address', (req, res) => {
     console.log(`Request received in /address`);
     res.json({ address: validatorWalletAddress });
 });
 
-// Obtener la IP del validador automáticamente
+
 function getLocalIPAddress() {
     const interfaces = os.networkInterfaces();
     for (const name of Object.keys(interfaces)) {
@@ -39,10 +40,10 @@ function getLocalIPAddress() {
             }
         }
     }
-    return '127.0.0.1'; // Usar localhost si no se encuentra la IP
+    return '127.0.0.1'; 
 }
 
-const validatorHost = getLocalIPAddress(); // Obtener la IP del validador
+const validatorHost = getLocalIPAddress();
 
 // Abrir o crear la base de datos SQLite
 const db = new sqlite3.Database('./blockchainDB.sqlite', (err) => {
@@ -56,10 +57,10 @@ const db = new sqlite3.Database('./blockchainDB.sqlite', (err) => {
 
 
 
-// Función para insertar un bloque en la base de datos
+
 async function insertBlockToDB(block) {
     try {
-        const blockData = JSON.stringify(block.data); // Convertir los datos del bloque a JSON
+        const blockData = JSON.stringify(block.data); 
         await new Promise((resolve, reject) => {
             db.run(
                 `INSERT INTO blocks (block_index, hash, previousHash, data, timestamp) VALUES (?, ?, ?, ?, ?)`,
@@ -68,7 +69,7 @@ async function insertBlockToDB(block) {
                     if (err) {
                         if (err.message.includes('UNIQUE constraint failed')) {
                             console.log(`The block with index ${block.index} o hash ${block.hash} already exists in the database. Avoiding duplicate insertions.`);
-                            return resolve(); // Evitar rechazar la promesa si ya existe
+                            return resolve(); 
                         }
                         console.error('Error inserting block into database:', err.message);
                         return reject(err);
@@ -83,47 +84,47 @@ async function insertBlockToDB(block) {
     }
 }
 
-// 1. Conexión al nodo principal
-const mainNodeUrl = 'ws://node.rhabits.io:5002';
+
+const mainNodeUrl = 'ws://server.teleblock.net:5002';
 const ws = new WebSocket(mainNodeUrl);
 
-// WebSocket para conectarse al nodo principal
+
 ws.on('open', () => {
     console.log('Connected to the main node.');
     console.log(`Host received in registerNewValidator: ${validatorHost}`);
     const message = { 
         type: 'registerNewValidator', 
         walletAddress: validatorWalletAddress,
-        validatorHostip: validatorHost // Enviar la IP del validador
+        validatorHostip: validatorHost 
     };
     console.log(`Enviando solicitud de registro de validador: ${JSON.stringify(message)}`);
-    ws.send(JSON.stringify(message));  // Enviar la solicitud de registro
+    ws.send(JSON.stringify(message));  
 });
 
 ws.on('message', async (data) => {
     const message = JSON.parse(data);
     console.log('Message received from the main node:', message);
 
-    // Si se recibe la blockchain completa
+    
     if (message.type === 'fullBlockchain') {
         console.log('Full Blockchain Received:', message.chain);
         blockchain.chain = message.chain;
 
-        // Insertar todos los bloques recibidos en la base de datos
+        
         for (const block of message.chain) {
             await insertBlockToDB(block);
         }
         console.log('Blockchain updated in the database.');
     }
 
-    // Si se recibe un nuevo bloque
+   
     if (message.type === 'newBlock') {
         console.log('New block received:', message.block);
-        // Validar y agregar el bloque a la blockchain local
+        
         const validationResult = await blockchain.validateAndAddBlock(message.block);
         if (validationResult.success) {
             console.log('Block valid and added to the blockchain.');
-            // Insertar el bloque validado en la base de datos
+            
             await insertBlockToDB(message.block);
         } else {
             console.log('Error in block validation:', validationResult.message);
@@ -139,7 +140,7 @@ ws.on('error', (error) => {
     console.error('WebSocket connection error:', error);
 });
 
-// 2. Iniciar servidor WebSocket para aceptar conexiones entrantes en el validador
+
 const wss = new WebSocket.Server({ port: 5002 });
 
 wss.on('connection', (ws) => {
@@ -183,7 +184,7 @@ wss.on('connection', (ws) => {
 
 console.log('WebSocket server listening on port 5002');
 
-// 3. Ruta /validate para validar bloques entrantes desde otros nodos
+
 app.post('/validate', async (req, res) => {
     const block = req.body.block;
 
@@ -192,11 +193,11 @@ app.post('/validate', async (req, res) => {
     }
 
     try {
-        // Validar y agregar el bloque a la blockchain
+       
         const validationResult = await blockchain.validateAndAddBlock(block);
 
         if (validationResult.success) {
-            // Insertar el bloque validado en la base de datos
+           
             await insertBlockToDB(block);
             res.json({ success: true, message: 'Block validated successfully' });
         } else {
@@ -208,7 +209,9 @@ app.post('/validate', async (req, res) => {
     }
 });
 
-// Iniciar servidor HTTPS en el validador
+
+//Add the key and certificate of the domain where the validator is hosted
+
 const sslOptions = {
     key: fs.readFileSync(path.join(__dirname, 'llave.key')),
     cert: fs.readFileSync(path.join(__dirname, 'certifi.crt'))
