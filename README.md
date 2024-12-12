@@ -1,6 +1,6 @@
 
 
-![Tele_block_negro](https://github.com/user-attachments/assets/9a58f81e-8e5b-4a81-b6e5-97f322fed737)
+![Tele_block_negro_blanco](https://github.com/user-attachments/assets/7318ae8e-0e32-48c7-9aa2-d9a836efae18)
 
 
 
@@ -128,4 +128,4 @@ This project is licensed under the MIT License. See the LICENSE file for more de
 
 Contact
 
-For questions, issues, or suggestions, you can open an issue on the repository or contact us at support@teleblock.me.
+For questions, issues, or suggestions, you can open an issue on the repository or contact us at support@mail.teleblock.net.
