@@ -56,25 +56,6 @@ Related File: `encrypt-message-user.js`
 ### Proof-of-Stake Validation
 TeleBlock uses the Proof-of-Stake model to select validators based on the number of staked coins. This eliminates the high energy consumption associated with Proof-of-Work.
 
-javascript
-(async () => {
-    try {
-        const privateKeyHex = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-        const senderAddress = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-        const receiverAddress = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-        const amount = 2.00000000;
-
-        const result = await signTransaction(privateKeyHex, senderAddress, receiverAddress, amount);
-
-        console.log(`Sender Address: ${result.senderAddress}`);
-        console.log(`Receiver Address: ${result.receiverAddress}`);
-        console.log(`Amount: ${result.amount}`);
-        console.log(`Signature: ${result.signature}`);
-    } catch (error) {
-        console.error('Error:', error.message);
-    }
-})();
-
 ## Installation
 
 1. **Clone the repository**:
