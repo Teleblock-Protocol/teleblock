@@ -56,9 +56,50 @@ Related File: `encrypt-message-user.js`
 ### Proof-of-Stake Validation
 TeleBlock uses the Proof-of-Stake model to select validators based on the number of staked coins. This eliminates the high energy consumption associated with Proof-of-Work.
 
-## Usage Example
+javascript
+(async () => {
+    try {
+        const privateKeyHex = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+        const senderAddress = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+        const receiverAddress = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+        const amount = 2.00000000;
 
-### Signing a Transaction
+        const result = await signTransaction(privateKeyHex, senderAddress, receiverAddress, amount);
+
+        console.log(`Sender Address: ${result.senderAddress}`);
+        console.log(`Receiver Address: ${result.receiverAddress}`);
+        console.log(`Amount: ${result.amount}`);
+        console.log(`Signature: ${result.signature}`);
+    } catch (error) {
+        console.error('Error:', error.message);
+    }
+})();
+
+## Installation
+
+1. **Clone the repository**:
+bash
+   git clone https://github.com/Teleblock-Protocol/teleblock.git
+
+cd teleblock
+npm install
+
+
+
+### What to do with this content?
+
+1. **Copy all the content** from # TeleBlock Protocol to mailto:support@mail.teleblock.net.
+2. **Paste the content** into a file named README.md in your GitHub repository, or any .md file you prefer.
+3. **Save the changes**, and GitHub will automatically render this file with the correct format when you access the repository.
+
+With this, you will have the complete documentation, including installation, usage, contributions, license, and contact in your README.md file.
+
+## Contact
+
+For questions, issues, or suggestions, you can open an issue on the repository or contact us at [support@mail.teleblock.net](mailto:support@mail.teleblock.net).
+ 
+
+## Usage Example
 
 ### Signing a Transaction
 
