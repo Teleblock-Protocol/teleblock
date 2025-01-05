@@ -1,0 +1,377 @@
+# TeleBlock API Documentation
+
+Esta documentación detalla los endpoints disponibles en la API de TeleBlock para desarrolladores.
+
+---
+
+## Endpoints Disponibles
+
+### **POST** `/registerUser`
+Registra un nuevo usuario en el sistema.
+
+#### **Request Body**:
+```json
+{
+    "name": "User"
+}
+```
+
+#### **Response**:
+```json
+{
+    "success": true,
+    "user": {
+        "walletAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "publicKey": "04xxxxxxxxxxxxxxxxxxxxxxxxxxxeeee2c3exxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx1",
+        "privateKey": "2xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "balance": "0.00000000",
+        "mnemonic": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    }
+}
+```
+
+---
+
+### **POST** `/sendMessage`
+Envía un mensaje cifrado a otro usuario.
+
+#### **Request Body**:
+```json
+{
+  "senderAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "receiverAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "encryptedMessage": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "encrypteIv": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "encryptedKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "encryptedKeyForSender": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "signatureMessage": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+```
+
+#### **Response**:
+```json
+{
+    "success": true,
+    "message": "Message sent successfully and reward received: Message sent and added to the blockchain. Sender reward: 0.0001101, Validator reward: 0.0042525",
+    "hash": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+```
+
+---
+
+### **POST** `/sendMessageToGroup`
+Envía un mensaje cifrado a un grupo.
+
+#### **Request Body**:
+```json
+{
+  "senderAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "groupAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "encryptedMessage": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "encryptedKeys": {
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  "encrypteIv": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "signatureMessage": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+```
+
+---
+
+### **POST** `/transferCoins`
+Transfiere monedas entre usuarios.
+
+#### **Request Body**:
+```json
+{
+  "senderAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "receiverAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "amount": 0.04000000,
+  "signature": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+```
+
+#### **Response**:
+```json
+{
+    "success": true,
+    "message": "Transaction completed and block added to the blockchain",
+    "block": {
+        "index": 1236,
+        "timestamp": 1733971344475,
+        "data": {
+            "type": "transfer",
+            "sender": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "recipient": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "amount": "0.04000000",
+            "signature": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "validator": {
+                "address": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "stake": 295.6675,
+                "host": "xxxxxxxxxxxxxxxxxxxx"
+            },
+            "validatorReward": 0.055
+        },
+        "previousHash": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "hash": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    }
+}
+```
+
+---
+
+### **POST** `/burnCoins`
+Quema una cantidad específica de monedas.
+
+#### **Request Body**:
+```json
+{
+  "senderAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "amount": 0.00100000,
+  "signature": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+```
+
+#### **Response**:
+```json
+{
+    "success": true,
+    "message": "Burning completed and block added to the blockchain.",
+    "block": {
+        "index": 1234,
+        "timestamp": 1733970596296,
+        "data": {
+            "type": "burn",
+            "sender": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "recipient": "0x000000000000000000000000000000000000dead",
+            "amount": "0.00100000",
+            "signature": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "validator": {
+                "address": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "stake": 295.5575,
+                "host": "xxxxxxxxxxxxxxxxxxxx"
+            },
+            "validatorReward": 0.055
+        },
+        "previousHash": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "hash": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    }
+}
+```
+
+---
+
+### **POST** `/sendPost`
+Envía un post cifrado a la blockchain.
+
+#### **Request Body**:
+```json
+{
+  "senderAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "encryptedPost": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "encryptedKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "encrypteIv": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "signatureMessage": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+```
+
+---
+
+### **GET** `/getuser/:walletAddress`
+Obtiene la información de un usuario por su dirección de wallet.
+
+#### **Response**:
+```json
+{
+    "success": true,
+    "user": {
+        "walletAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "name": "xxxxxxxx",
+        "publicKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "balance": "1.35166139"
+    }
+}
+```
+
+---
+
+### **GET** `/getmessagesbetween/:senderAddress/:receiverAddress`
+Obtiene los mensajes entre dos direcciones.
+
+---
+
+### **GET** `/getValidators`
+Obtiene la lista de validadores.
+
+#### **Response**:
+```json
+{
+    "success": true,
+    "validators": [
+        {
+            "address": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "ip": "xxxxxxxxxxxxxxxxxxxx",
+            "stake": "859.07500000"
+        },
+        {
+            "address": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "ip": "xxxxxxxxxxxxxxxxxxxx",
+            "stake": "347.30250000"
+        }
+    ]
+}
+```
+
+---
+
+### **GET** `/getLastBlocks`
+Obtiene los últimos bloques.
+
+#### **Response**:
+```json
+{
+    "success": true,
+    "blocks": [
+        {
+            "index": 2648,
+            "timestamp": 1736028677919,
+            "data": {
+                "type": "burn",
+                "sender": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "recipient": "0x000000000000000000000000000000000000dead",
+                "amount": "0.00010000",
+                "signature": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "validator": {
+                    "address": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    "stake": 357.4275,
+                    "host": "xxxxxxxxxxxxxxxxxxxx"
+                },
+                "validatorReward": 0.045
+            },
+            "previousHash": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "hash": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+    ]
+}
+```
+
+---
+
+### **GET** `/getValidator/:walletAddress`
+Obtiene la información de un validador por su dirección de wallet.
+
+#### **Response**:
+```json
+{
+    "success": true,
+    "validator": {
+        "walletAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "stake": "359.16054000"
+    }
+}
+```
+
+---
+
+### **POST** `/createGroup`
+Crea un nuevo grupo.
+
+#### **Request Body**:
+```json
+{
+  "groupAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "groupName": "Blockchain TeleBlock",
+  "adminAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "encrypteIv": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "encryptedKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "signatureMessage": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+```
+
+---
+
+### **POST** `/addMemberToGroup`
+Añade un miembro a un grupo existente.
+
+#### **Request Body**:
+```json
+{
+  "adminAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "groupAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "memberAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "signatureMessage": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+```
+
+---
+
+### **POST** `/unstake`
+Retira el stake de un validador.
+
+#### **Request Body**:
+```json
+{
+  "stakeWallet": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "stakeAmount": 859,
+  "walletAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "signature": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+```
+
+#### **Response**:
+```json
+{
+    "success": true,
+    "message": "Stake retirado exitosamente. Nuevo balance: 959.46",
+    "block": {
+        "index": 2408,
+        "timestamp": 1735451111172,
+        "data": {
+            "type": "unstake",
+            "walletAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "stakeAmount": "859.00000000",
+            "stakeWallet": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "validator": {
+                "address": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "stake": 347.3025,
+                "host": "xxxxxxxxxxxxxxxxxxxx"
+            },
+            "validatorReward": 0.045,
+            "newStake": "0.07500000"
+        },
+        "previousHash": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "hash": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    }
+}
+```
+
+---
+
+### **POST** `/stake`
+Añade un stake al sistema.
+
+#### **Request Body**:
+```json
+{
+  "walletAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "stakeAmount": 1,
+  "stakeWallet": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "signature": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+```
+
+---
+
+### **POST** `/addAdminToGroup`
+Añade un administrador a un grupo existente.
+
+#### **Request Body**:
+```json
+{
+  "adminAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "groupAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "newAdminAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "signatureMessage": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+```
+
